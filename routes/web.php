@@ -24,6 +24,9 @@ Route::middleware('auth')->group(
     function () {
 
         Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard');
+        Route::get('/admin/category', [AdminController::class, 'category'])->name('admin.category');
+        Route::get('/admin/house', [AdminController::class, 'house'])->name('admin.house');
+        Route::get('/admin/message', [AdminController::class, 'message'])->name('admin.message');
     }
 );
 
