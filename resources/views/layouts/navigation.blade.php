@@ -11,11 +11,43 @@
                 </div>
 
                 <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
-                    </x-nav-link>
-                </div>
+                @auth
+                    <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                        <x-nav-link :href="route('/')" :active="request()->routeIs('/')">
+                            {{ __('Acceuil') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('/')" :active="request()->routeIs('/')">
+                            {{ __('Tendances') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('/')" :active="request()->routeIs('/')">
+                            {{ __('Maisons') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('/')" :active="request()->routeIs('/')">
+                            {{ __('Messages') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('/')" :active="request()->routeIs('/')">
+                            {{ __('Nous contacter') }}
+                        </x-nav-link>
+                    </div>
+                @endauth
+
+                <!-- liens quand le users n'est pas connecte -->
+                @guest
+                    <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                        <x-nav-link :href="route('home')" :active="request()->routeIs('home')">
+                            {{ __('Acceuil') }}
+                        </x-nav-link>
+                        <x-nav-link href='./#tendances'>
+                            {{ __('Tendances') }}
+                        </x-nav-link>
+                        <x-nav-link href='./#maisons'>
+                            {{ __('Maisons') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('home')" :active="request()->routeIs('home')">
+                            {{ __('Nous contacter') }}
+                        </x-nav-link>
+                    </div>
+                @endguest
             </div>
 
             <!-- Settings Dropdown -->
@@ -60,24 +92,17 @@
 
                 {{-- non connecte --}}
                 @guest
-                    <x-dropdown align="right" width="48">
-                        <x-slot name="trigger">
-                            <button
-                                class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
-                                <div>Menu</div>
-                            </button>
-                        </x-slot>
+                    <div class="flex justify-between navButtonWidth">
+                        <x-dropdown-link :href="route('login')"
+                            class="bg-orange-600 hover:bg-orange-700 border rounded-md w-32 text-white">
+                            {{ __('se connecter') }}
+                        </x-dropdown-link>
 
-                        <x-slot name="content">
-                            <x-dropdown-link :href="route('login')">
-                                {{ __('se connecter') }}
-                            </x-dropdown-link>
-
-                            <x-dropdown-link :href="route('register')">
-                                {{ __('s\'enregister') }}
-                            </x-dropdown-link>
-                        </x-slot>
-                    </x-dropdown>
+                        <x-dropdown-link :href="route('login')"
+                            class="bg-indigo-500 hover:bg-indigo-700 border rounded-md w-32 text-white">
+                            {{ __('s\'enregistrer') }}
+                        </x-dropdown-link>
+                    </div>
                 @endguest
             </div>
 
@@ -99,10 +124,19 @@
 
     <!-- Responsive Navigation Menu -->
     <div :class="{ 'block': open, 'hidden': !open }" class="hidden sm:hidden">
-        <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
-            </x-responsive-nav-link>
+        <div class="pt-2 pb-3 flex flex-col space-y-2">
+            <x-nav-link :href="route('home')" :active="request()->routeIs('home')">
+                {{ __('Acceuil') }}
+            </x-nav-link>
+            <x-nav-link href='./#tendances'>
+                {{ __('Tendances') }}
+            </x-nav-link>
+            <x-nav-link href='./#maisons'>
+                {{ __('Maisons') }}
+            </x-nav-link>
+            <x-nav-link :href="route('home')" :active="request()->routeIs('home')">
+                {{ __('Nous contacter') }}
+            </x-nav-link>
         </div>
 
         <!-- Responsive Settings Options -->
@@ -146,3 +180,14 @@
         @endguest
     </div>
 </nav>
+
+
+<style>
+    @media only screen and (min-width: 768px) {
+
+        /* For desktop: */
+        .navButtonWidth {
+            width: 300px !important;
+        }
+    }
+</style>

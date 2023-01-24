@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
 use App\Models\Category;
+use Illuminate\Http\Request;
+
 
 class CategoryController extends Controller
 {
@@ -13,10 +15,6 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        //
-    }
 
     /**
      * Show the form for creating a new resource.
@@ -34,9 +32,21 @@ class CategoryController extends Controller
      * @param  \App\Http\Requests\StoreCategoryRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreCategoryRequest $request)
+    public function store(Request $request)
     {
-        //
+
+        $request->validate([
+            'nom' => ['required'],
+            'image' => ['required', 'image']
+        ]);
+        $image = $request->file('image')->store('category');
+
+        Category::create([
+            'nom' => $request->nom,
+            'image' => $image
+        ]);
+
+        return redirect()->route('admin.category')->with('success', 'Categorie ajoutee avec success');
     }
 
     /**
@@ -81,6 +91,9 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+
+        $category->delete();
+
+        return redirect()->route('admin.category')->with('success', 'Categorie supprimee avec success');
     }
 }

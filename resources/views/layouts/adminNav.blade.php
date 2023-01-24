@@ -94,33 +94,10 @@
                 </li>
             </ul>
         </nav>
-
-        @yield('content')
-
+        <div id="content" class="col-10 bg-light py-5 px-5">
+            @yield('content')
+        </div>
     </section>
 </body>
-
-<style>
-    .c-active {
-        color: white;
-        border-radius: .25 rem !important;
-        background-color: #0d6efd !important;
-        padding: .5 rem !important;
-    }
-
-    .c-active a {
-        color: text-white
-    }
-
-    .c-non-active {
-        border-radius: .25rem;
-        padding: .5 rem;
-        margin-top: 1.5 rem;
-    }
-
-    .c-non-active a {
-        color: #212529 !important
-    }
-</style>
 
 </html>

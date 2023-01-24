@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 
@@ -24,7 +25,9 @@ class AdminController extends Controller
             abort('403', 'Vous n\'avez pas acces a cette page');
         }
 
-        return view('admin.category');
+        $categories = Category::all();
+
+        return view('admin.category', compact('categories'));
     }
 
     public function house()
