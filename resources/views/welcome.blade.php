@@ -47,10 +47,54 @@
                 @endforeach
             </div>
         </div>
+    @else
+        <h2 class="text-center text-2xl md:text-3xl lg:text-4xl">Aucune tendances</h2>
 
-        <div class="container mx-auto my-6" id="maisons">
+    @endif
+
+    @if ($houses->count() > 0)
+        <div class="container mx-auto my-8" id="maisons">
             <h2 class="text-center text-2xl md:text-3xl lg:text-4xl">Quelques maisons</h2>
+            <div class="flex flex-wrap px-4 mt-4">
+                @foreach ($houses as $house)
+                    <div class="sm:basis-1 md:basis-1/2 lg:basis-1/4 mt-5">
+                        <div
+                            class="sm:w-1 md:w-11/12 overflow-hidden rounded-xl bg-white shadow-md duration-200 hover:scale-105 hover:shadow-xl">
+                            <img src={{ asset('storage/' . $house->image) }} alt="house" class="h-auto w-full" />
+                            <div class="p-5">
+                                <p class="text-medium mb-5 text-gray-700">Prix: {{ $house->prix . ' FCFA' }}</p>
+                                <p class="text-medium mb-5 text-gray-700">Quotient: {{ $house->nb_quotient . ' mois' }}
+                                </p>
+                                <p class="text-medium mb-5 text-gray-700">Ville: {{ $house->ville }}</p>
+                                <p class="text-medium mb-5 text-gray-700">Quartier: {{ $house->quartier }}</p>
+                                @auth
+                                    @if ($house->user_id == Auth::user()->id)
+                                        <div class="py-4">
+                                            <p class="text-medium mb-5 text-red-700 text-center">Publier par vous</p>
+                                        </div>
+                                    @else
+                                        <button
+                                            class="w-full rounded-md bg-indigo-600  py-2 text-indigo-100 hover:bg-indigo-500 hover:shadow-md duration-75">En
+                                            savoir plus
+                                        </button>
+                                    @endif
+                                @endauth
+                                @guest
+                                    <button
+                                        class="w-full rounded-md bg-indigo-600  py-2 text-indigo-100 hover:bg-indigo-500 hover:shadow-md duration-75">En
+                                        savoir plus
+                                    </button>
+                                @endguest
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
         </div>
-
+    @else
+        <div class="container mx-auto my-6" id="maisons">
+            <h2 class="text-center text-2xl md:text-3xl lg:text-4xl">Aucune maison n'a ete mise en location pour
+                l'instant</h2>
+        </div>
     @endif
 </x-app-layout>

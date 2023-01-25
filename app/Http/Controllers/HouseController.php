@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use App\Models\House;
+use App\Models\Category;
 use App\Http\Requests\StoreHouseRequest;
 use App\Http\Requests\UpdateHouseRequest;
-use App\Models\House;
+use Illuminate\Http\Request;
 
 class HouseController extends Controller
 {
@@ -15,7 +18,14 @@ class HouseController extends Controller
      */
     public function index()
     {
-        //
+        $id = auth()->user()->id;
+
+        $user = User::find($id);
+
+        $houses = $user->houses()->get();
+
+        $categories = Category::all();
+        return view('house.index', compact('houses', 'categories'));
     }
 
     /**
@@ -34,9 +44,36 @@ class HouseController extends Controller
      * @param  \App\Http\Requests\StoreHouseRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreHouseRequest $request)
+    public function store(Request $request)
     {
-        //
+        $request->validate([
+            'ville' => ['required', 'string'],
+            'quartier' => ['required', 'string'],
+            'prix' => ['required', 'integer'],
+            'quotient' => ['required', 'integer'],
+            'categorie' => ['required', 'integer'],
+            'image' => ['required', 'image'],
+
+        ]);
+
+        //traitement image
+        $image = $request->image->store('house');
+
+        //traitement du selecteur des categories
+        $categorie = Category::find($request->categorie);
+
+        House::create([
+            'ville' => $request->ville,
+            'quartier' => $request->quartier,
+            'prix' => $request->prix,
+            'nb_quotient' => $request->quotient,
+            'categorie_id' => $categorie->id,
+            'image' => $image,
+            'user_id' => auth()->user()->id,
+            'description' => 'Une description'
+        ]);
+
+        return redirect()->route('house.index')->with('success', 'Votre maison a ete mise en location avec success');
     }
 
     /**

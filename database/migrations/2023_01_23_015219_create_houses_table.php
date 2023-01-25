@@ -22,8 +22,10 @@ return new class extends Migration
             $table->string('quartier');
             $table->integer('nb_quotient');
             $table->timestamps();
+            $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('categorie_id');
             $table->foreign('categorie_id')->references('id')->on('categories');
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

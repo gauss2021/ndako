@@ -94,7 +94,6 @@
         console.log(save);
         save.addEventListener('click', function() {
             let formulaire = document.getElementById('formulaire');
-            console.log(formulaire);
             formulaire.submit();
         });
     </script>

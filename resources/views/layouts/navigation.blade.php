@@ -13,19 +13,19 @@
                 <!-- Navigation Links -->
                 @auth
                     <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                        <x-nav-link :href="route('/')" :active="request()->routeIs('/')">
+                        <x-nav-link :href="route('home')" :active="request()->routeIs('home')">
                             {{ __('Acceuil') }}
                         </x-nav-link>
-                        <x-nav-link :href="route('/')" :active="request()->routeIs('/')">
+                        <x-nav-link href="./#tendances ">
                             {{ __('Tendances') }}
                         </x-nav-link>
-                        <x-nav-link :href="route('/')" :active="request()->routeIs('/')">
+                        <x-nav-link href="./#maisons">
                             {{ __('Maisons') }}
                         </x-nav-link>
-                        <x-nav-link :href="route('/')" :active="request()->routeIs('/')">
+                        <x-nav-link href="#">
                             {{ __('Messages') }}
                         </x-nav-link>
-                        <x-nav-link :href="route('/')" :active="request()->routeIs('/')">
+                        <x-nav-link href="#">
                             {{ __('Nous contacter') }}
                         </x-nav-link>
                     </div>
@@ -54,6 +54,9 @@
             <div class="hidden sm:flex sm:items-center sm:ml-6">
                 {{-- connecte --}}
                 @auth
+                    <x-nav-link :href="route('house.index')" :active="request()->routeIs('house.index')" class="mr-4">
+                        {{ __('Vos locations') }}
+                    </x-nav-link>
                     <x-dropdown align="right" width="48">
                         <x-slot name="trigger">
                             <button
@@ -94,12 +97,12 @@
                 @guest
                     <div class="flex justify-between navButtonWidth">
                         <x-dropdown-link :href="route('login')"
-                            class="bg-orange-600 hover:bg-orange-700 border rounded-md w-32 text-white">
+                            class="bg-orange-600 hover:bg-orange-700 focus:bg-orange-700 border rounded-md w-32 text-white">
                             {{ __('se connecter') }}
                         </x-dropdown-link>
 
-                        <x-dropdown-link :href="route('login')"
-                            class="bg-indigo-500 hover:bg-indigo-700 border rounded-md w-32 text-white">
+                        <x-dropdown-link :href="route('register')"
+                            class="bg-indigo-600 hover:bg-indigo-700 focus:bg-indigo-700 border rounded-md w-32 text-white">
                             {{ __('s\'enregistrer') }}
                         </x-dropdown-link>
                     </div>
@@ -167,12 +170,14 @@
         @endauth
 
         @guest
-            <div class="pt-4 pb-1 border-t border-gray-200">
-                <div class="mt-3 space-y-1">
-                    <x-responsive-nav-link :href="route('login')">
+            <div class="pt-2 pb-1 border-t border-gray-200">
+                <div class="mt-1 space-y-1">
+                    <x-responsive-nav-link :href="route('login')"
+                        class="bg-orange-600 hover:bg-orange-700 border rounded-md w-32 text-white mb-3">
                         {{ __('Se connecter') }}
                     </x-responsive-nav-link>
-                    <x-responsive-nav-link :href="route('register')">
+                    <x-responsive-nav-link :href="route('register')"
+                        class="bg-indigo-600 hover:bg-indigo-700 border rounded-md w-32 text-white">
                         {{ __('S\'enregistrer') }}
                     </x-responsive-nav-link>
                 </div>
