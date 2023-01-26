@@ -16,7 +16,9 @@
 </head>
 
 <body class="font-sans antialiased bg-gray-100">
-    @include('layouts.navigation')
+    @if (!request()->routeIs('house.show'))
+        @include('layouts.navigation')
+    @endif
     <!-- Page Content -->
     <main class="">
         {{ $slot }}

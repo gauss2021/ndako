@@ -9,7 +9,7 @@
             style="position: relative">
             <h3 class="text-xl">{{ session('success') }}</h3>
             <button onclick="removeAlarm()"
-                class="absolute top-3 right-3 bg-red-500 hover:bg-red-600 text-2xl w-10 h-10 rounded-full focus:outline-none text-white">
+                class="absolute -top-3 -right-3 bg-red-500 hover:bg-red-600 text-2xl w-10 h-10 rounded-full focus:outline-none text-white">
                 &cross;
             </button>
         </div>
@@ -40,14 +40,14 @@
                         <label for="ville" class="text-gray-700">Ville(<span class="text-red-700">*</span>)</label>
                         <input type="text" name="ville" id="ville"
                             class="mt-2 p-2 border border-gray-300 focus:outline-none focus:ring-0 focus:border-gray-300 rounded text-sm text-gray-900"
-                            placeholder="Enter la ville ou se trouve la maison">
+                            placeholder="Enter la ville ou se trouve la maison" required>
                     </div>
                     <div class="flex flex-col my-4">
                         <label for="quartier" class="text-gray-700">Quartier(<span
                                 class="text-red-700">*</span>)</label>
                         <input type="text" name="quartier" id="quartier"
                             class="mt-2 p-2 border border-gray-300 focus:outline-none focus:ring-0 focus:border-gray-300 rounded text-sm text-gray-900"
-                            placeholder="Enter le quartier où se trouve la maison">
+                            placeholder="Enter le quartier où se trouve la maison" required>
                     </div>
 
                     <div class="flex flex-col my-4">
@@ -58,7 +58,7 @@
                                 placeholder="Enter le prix de la maison par mois">
                             <input type="text"
                                 class="mt-2 ml-4 p-2 border bg-gray-600 border-gray-300 focus:outline-none focus:ring-0 focus:border-gray-300 rounded text-sm text-gray-900"
-                                disabled value="FCFA">
+                                disabled value="FCFA" required>
                         </div>
                     </div>
                     <div class="flex flex-col my-4">
@@ -66,11 +66,11 @@
                                 class="text-red-700">*</span>)</label>
                         <input type="number" name="quotient" id="quotient"
                             class="mt-2 p-2 border border-gray-300 focus:outline-none focus:ring-0 focus:border-gray-300 rounded text-sm text-gray-900"
-                            placeholder="Enter le nombre de mois de quotient">
+                            placeholder="Enter le nombre de mois de quotient" required>
                     </div>
                     <div class="flex flex-col my-4">
                         <label for="categorie" class="text-gray-700">Type(<span class="text-red-700">*</span>)</label>
-                        <select name="categorie" id="categorie">
+                        <select name="categorie" id="categorie" required>
                             <option disabled selected>Choissisez le type de votre maison</option>
                             @if ($categories->count() > 0)
                                 @foreach ($categories as $categorie)
@@ -81,10 +81,10 @@
                     </div>
 
                     <div class="flex flex-col my-4">
-                        <label for="image" class="text-gray-700">Ajouter une image de votre maison(<span
-                                class="text-red-700">*</span>)</label>
-                        <input type="file" name="image" id="image" accept=".jpg, .jpeg, .png"
-                            class="mt-2 p-2 border-gray-300 text-sm text-gray-900">
+                        <label for="images" class="text-gray-700">Ajouter des images de votre maison(<span
+                                class="text-red-700">*Au moins une image et aux maximun 4 images</span>)</label>
+                        <input type="file" name="images[]" id="images" accept=".jpg, .jpeg, .png"
+                            class="mt-2 p-2 border-gray-300 text-sm text-gray-900" multiple>
                     </div>
 
                 </form>
@@ -114,7 +114,8 @@
                     <div class="sm:basis-1 md:basis-1/2 lg:basis-1/4 mt-5">
                         <div
                             class="sm:w-1 md:w-11/12 overflow-hidden rounded-xl bg-white shadow-md duration-200 hover:scale-105 hover:shadow-xl">
-                            <img src={{ asset('storage/' . $house->image) }} alt="house" class="h-auto w-full" />
+                            <img src={{ asset('storage/' .$house->houseImages()->inRandomOrder('id')->take(1)->first()->path) }}
+                                alt="house" class="h-auto w-full" />
                             <div class="p-5">
                                 <p class="text-medium mb-5 text-gray-700">Prix: {{ $house->prix . ' FCFA' }}</p>
                                 <p class="text-medium mb-5 text-gray-700">Quotient: {{ $house->nb_quotient . ' mois' }}

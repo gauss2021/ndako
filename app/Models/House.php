@@ -21,4 +21,10 @@ class House extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function houseImages()
+    {
+
+        return $this->hasMany(HouseImage::class, 'house_id');
+    }
 }

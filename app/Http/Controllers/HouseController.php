@@ -7,6 +7,7 @@ use App\Models\House;
 use App\Models\Category;
 use App\Http\Requests\StoreHouseRequest;
 use App\Http\Requests\UpdateHouseRequest;
+use App\Models\HouseImage;
 use Illuminate\Http\Request;
 
 class HouseController extends Controller
@@ -52,26 +53,31 @@ class HouseController extends Controller
             'prix' => ['required', 'integer'],
             'quotient' => ['required', 'integer'],
             'categorie' => ['required', 'integer'],
-            'image' => ['required', 'image'],
-
+            'images' => ['required'],
+            'images.*' => 'image|mimes:jpeg,png,jpg'
         ]);
-
-        //traitement image
-        $image = $request->image->store('house');
 
         //traitement du selecteur des categories
         $categorie = Category::find($request->categorie);
 
-        House::create([
+        $currentHouse = House::create([
             'ville' => $request->ville,
             'quartier' => $request->quartier,
             'prix' => $request->prix,
             'nb_quotient' => $request->quotient,
             'categorie_id' => $categorie->id,
-            'image' => $image,
             'user_id' => auth()->user()->id,
-            'description' => 'Une description'
         ]);
+
+
+        foreach ($request->file('images') as $image) {
+            $imageName = $image->store('houses');
+
+            HouseImage::create([
+                'path' => $imageName,
+                'house_id' => $currentHouse->id
+            ]);
+        }
 
         return redirect()->route('house.index')->with('success', 'Votre maison a ete mise en location avec success');
     }
@@ -84,7 +90,8 @@ class HouseController extends Controller
      */
     public function show(House $house)
     {
-        //
+        $images = $house->houseImages()->get();
+        return view('house.show', compact('house', 'images'));
     }
 
     /**

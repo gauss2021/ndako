@@ -16,8 +16,6 @@ return new class extends Migration
         Schema::create('houses', function (Blueprint $table) {
             $table->id();
             $table->integer('prix');
-            $table->text('description');
-            $table->text('image');
             $table->string('ville');
             $table->string('quartier');
             $table->integer('nb_quotient');

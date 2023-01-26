@@ -60,7 +60,8 @@
                     <div class="sm:basis-1 md:basis-1/2 lg:basis-1/4 mt-5">
                         <div
                             class="sm:w-1 md:w-11/12 overflow-hidden rounded-xl bg-white shadow-md duration-200 hover:scale-105 hover:shadow-xl">
-                            <img src={{ asset('storage/' . $house->image) }} alt="house" class="h-auto w-full" />
+                            <img src={{ asset('storage/' .$house->houseImages()->inRandomOrder('id')->take(1)->first()->path) }}
+                                alt="house" class="h-auto w-full" />
                             <div class="p-5">
                                 <p class="text-medium mb-5 text-gray-700">Prix: {{ $house->prix . ' FCFA' }}</p>
                                 <p class="text-medium mb-5 text-gray-700">Quotient: {{ $house->nb_quotient . ' mois' }}
@@ -73,17 +74,21 @@
                                             <p class="text-medium mb-5 text-red-700 text-center">Publier par vous</p>
                                         </div>
                                     @else
-                                        <button
-                                            class="w-full rounded-md bg-indigo-600  py-2 text-indigo-100 hover:bg-indigo-500 hover:shadow-md duration-75">En
-                                            savoir plus
-                                        </button>
+                                        <div class="flex justify-center">
+                                            <a href={{ route('house.show', $house) }}
+                                                class="w-full px-4 rounded-md bg-indigo-600  py-2 text-indigo-100 text-center hover:bg-indigo-500 hover:shadow-md duration-75">En
+                                                savoir plus
+                                            </a>
+                                        </div>
                                     @endif
                                 @endauth
                                 @guest
-                                    <button
-                                        class="w-full rounded-md bg-indigo-600  py-2 text-indigo-100 hover:bg-indigo-500 hover:shadow-md duration-75">En
-                                        savoir plus
-                                    </button>
+                                    <div class="flex justify-center">
+                                        <a href={{ route('house.show', $house) }}
+                                            class="w-full px-4 rounded-md bg-indigo-600  py-2 text-indigo-100 text-center hover:bg-indigo-500 hover:shadow-md duration-75">En
+                                            savoir plus
+                                        </a>
+                                    </div>
                                 @endguest
                             </div>
                         </div>
