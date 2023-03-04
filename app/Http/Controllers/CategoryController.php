@@ -57,7 +57,9 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        //
+        $houses = $category->houses()->get();
+        $nameOfCategory = $category->nom;
+        return view('category.show', compact('houses', 'nameOfCategory'));
     }
 
     /**

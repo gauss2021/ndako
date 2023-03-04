@@ -16,7 +16,10 @@
 </head>
 
 <body class="font-sans antialiased bg-gray-100">
-    @if (!request()->routeIs('house.show'))
+    @if (
+        !request()->routeIs('house.show') and
+            !request()->routeIs('category.show') and
+            !request()->routeIs('chat.chatWithProprietaire'))
         @include('layouts.navigation')
     @endif
     <!-- Page Content -->

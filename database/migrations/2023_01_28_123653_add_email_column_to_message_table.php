@@ -13,12 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('house_images', function (Blueprint $table) {
-            $table->id();
-            $table->string('path');
-            $table->timestamps();
-            $table->unsignedBigInteger('house_id');
-            $table->foreign('house_id')->references('id')->on('houses')->onDelete('cascade');
+        Schema::table('messages', function (Blueprint $table) {
+            $table->string('email');
         });
     }
 
@@ -29,6 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('house_images');
+        Schema::table('messages', function (Blueprint $table) {
+            //
+        });
     }
 };

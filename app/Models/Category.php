@@ -14,6 +14,6 @@ class Category extends Model
 
     public function houses()
     {
-        return $this->hasMany(House::class);
+        return $this->hasMany(House::class, 'categorie_id');
     }
 }

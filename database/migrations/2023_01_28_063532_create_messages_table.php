@@ -13,12 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('house_images', function (Blueprint $table) {
+        Schema::create('messages', function (Blueprint $table) {
             $table->id();
-            $table->string('path');
+            $table->text('contenu');
+            $table->string('expediteur')->nullable();
+            $table->string('destinateur');
             $table->timestamps();
-            $table->unsignedBigInteger('house_id');
-            $table->foreign('house_id')->references('id')->on('houses')->onDelete('cascade');
         });
     }
 
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('house_images');
+        Schema::dropIfExists('messages');
     }
 };

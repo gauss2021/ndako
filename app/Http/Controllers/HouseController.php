@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\House;
 use App\Models\Category;
-use App\Http\Requests\StoreHouseRequest;
-use App\Http\Requests\UpdateHouseRequest;
 use App\Models\HouseImage;
 use Illuminate\Http\Request;
 
@@ -112,9 +110,55 @@ class HouseController extends Controller
      * @param  \App\Models\House  $house
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateHouseRequest $request, House $house)
+    public function update(Request $request, House $house)
     {
-        //
+        $request->validate([
+            'ville' => ['string'],
+            'quartier' => ['string'],
+            'prix' => ['integer'],
+            'quotient' => ['integer'],
+            'categorie' => ['integer'],
+            'images.*' => 'image|mimes:jpeg,png,jpg'
+        ]);
+
+        //traitement du selecteur des categories
+        $categorie = Category::find($request->categorie);
+
+        if (isset($request->ville) and !empty($request->ville)) {
+            $house->ville = $request->ville;
+        }
+
+        if (isset($request->quartier) and !empty($request->quartier)) {
+            $house->quartier = $request->quartier;
+        }
+
+        if (isset($request->prix) and !empty($request->prix)) {
+            $house->prix = $request->prix;
+        }
+
+        if (isset($request->quotient) and !empty($request->quotient)) {
+            $house->nb_quotient = $request->quotient;
+        }
+
+        if (isset($categorie->id) and !empty($categorie->id)) {
+            $house->categorie_id = $categorie->id;
+        }
+
+        $house->save();
+
+        if (null !== $request->file('images') and !empty($request->file('images'))) {
+
+            foreach ($request->file('images') as $image) {
+                $imageName = $image->store('houses');
+
+                $houseImage = HouseImage::find($house->id);
+
+                $houseImage->path = $imageName;
+
+                $houseImage->save();
+            }
+        }
+        return redirect()->route('house.index')->with('updateHouse', 'Modification effectuee avec success');
     }
 
     /**
@@ -126,5 +170,13 @@ class HouseController extends Controller
     public function destroy(House $house)
     {
         //
+    }
+
+    public function retireHouseOfLocation(House $house)
+    {
+
+        $house->delete();
+
+        return redirect()->route('house.index')->with('retireHouse', 'Votre maison a bien ete retiree de la location ');
     }
 }

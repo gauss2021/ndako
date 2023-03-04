@@ -25,6 +25,6 @@ class House extends Model
     public function houseImages()
     {
 
-        return $this->hasMany(HouseImage::class, 'house_id');
+        return $this->hasMany(HouseImage::class, 'house_id', 'id');
     }
 }

@@ -20,7 +20,7 @@
                     </form>
                     <div class="flex justify-center md:block md:m-0">
                         <button
-                            class="bg-blue-600 hover:bg-blue-700 py-2 px-6 text-gray-100 border border-blue-600 rounded-tr rounded-br text-sm">Rechercher</button>
+                            class="bg-indigo-600 hover:bg-indigo-700 py-2 px-6 text-gray-100 border border-indigo-600 rounded-tr rounded-br text-sm">Rechercher</button>
                     </div>
                 </div>
             </div>
@@ -38,9 +38,10 @@
                             <img src={{ asset('storage/' . $categorie->image) }} alt="plant" class="h-auto w-full" />
                             <div class="p-5">
                                 <p class="text-medium mb-5 text-gray-700">{{ $categorie->nom }}</p>
-                                <button
-                                    class="w-full rounded-md bg-indigo-600  py-2 text-indigo-100 hover:bg-indigo-500 hover:shadow-md duration-75">Voir
-                                    toutes les maisons associes</button>
+                                <a href={{ route('category.show', $categorie) }}
+                                    class="w-full rounded-md bg-indigo-600 px-4 py-2 text-indigo-100 hover:bg-indigo-500 hover:shadow-md duration-75">Voir
+                                    toutes les maisons associes
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -63,6 +64,7 @@
                             <img src={{ asset('storage/' .$house->houseImages()->inRandomOrder('id')->take(1)->first()->path) }}
                                 alt="house" class="h-auto w-full" />
                             <div class="p-5">
+                                <p class="text-medium mb-5 text-gray-700">Type: {{ $house->category->nom }}</p>
                                 <p class="text-medium mb-5 text-gray-700">Prix: {{ $house->prix . ' FCFA' }}</p>
                                 <p class="text-medium mb-5 text-gray-700">Quotient: {{ $house->nb_quotient . ' mois' }}
                                 </p>
