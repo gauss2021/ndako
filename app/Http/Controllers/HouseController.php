@@ -151,7 +151,7 @@ class HouseController extends Controller
             foreach ($request->file('images') as $image) {
                 $imageName = $image->store('houses');
 
-                $houseImage = HouseImage::find($house->id);
+                $houseImage = HouseImage::find($house->id)->orderBy('updated_at')->first();
 
                 $houseImage->path = $imageName;
 

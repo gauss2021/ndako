@@ -30,11 +30,11 @@
     @if ($categories->count() > 0)
         <div class="container mx-auto my-6" id="tendances">
             <h2 class="text-center text-2xl md:text-3xl lg:text-4xl">Decouvrer nos tendances</h2>
-            <div class="flex flex-wrap px-4">
+            <div class="flex flex-wrap px-4 items-stretch">
                 @foreach ($categories as $categorie)
                     <div class="sm:basis-1 md:basis-1/2 lg:basis-1/4 mt-5">
                         <div
-                            class="sm:w-1 md:w-11/12 overflow-hidden rounded-xl bg-white shadow-md duration-200 hover:scale-105 hover:shadow-xl">
+                            class="sm:w-1 md:w-11/12 overflow-hidden rounded-xl bg-white shadow-md duration-200 hover:scale-105 hover:shadow-xl flex flex-col h-full">
                             <img src={{ asset('storage/' . $categorie->image) }} alt="plant" class="h-auto w-full" />
                             <div class="p-5">
                                 <p class="text-medium mb-5 text-gray-700">{{ $categorie->nom }}</p>
@@ -56,14 +56,14 @@
     @if ($houses->count() > 0)
         <div class="container mx-auto my-8" id="maisons">
             <h2 class="text-center text-2xl md:text-3xl lg:text-4xl">Quelques maisons</h2>
-            <div class="flex flex-wrap px-4 mt-4">
+            <div class="flex flex-wrap px-4 mt-4 items-stretch">
                 @foreach ($houses as $house)
                     <div class="sm:basis-1 md:basis-1/2 lg:basis-1/4 mt-5">
                         <div
-                            class="sm:w-1 md:w-11/12 overflow-hidden rounded-xl bg-white shadow-md duration-200 hover:scale-105 hover:shadow-xl">
+                            class="sm:w-1 md:w-11/12 overflow-hidden rounded-xl bg-white shadow-md duration-200 hover:scale-105 hover:shadow-xl flex flex-col h-full">
                             <img src={{ asset('storage/' .$house->houseImages()->inRandomOrder('id')->take(1)->first()->path) }}
                                 alt="house" class="h-auto w-full" />
-                            <div class="p-5">
+                            <div class="p-5 grow">
                                 <p class="text-medium mb-5 text-gray-700">Type: {{ $house->category->nom }}</p>
                                 <p class="text-medium mb-5 text-gray-700">Prix: {{ $house->prix . ' FCFA' }}</p>
                                 <p class="text-medium mb-5 text-gray-700">Quotient: {{ $house->nb_quotient . ' mois' }}
