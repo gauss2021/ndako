@@ -12,9 +12,8 @@
     </div>
 
     <div class="mx-auto mt-6 p-6 rounded shadow bg-white" style="width: 96%">
-        <h1 class="text-start text-2xl text-red-600 ">
+        <h1 class="text-center md:text-start text-2xl text-red-600 ">
             <?= $images->count() > 1 ? 'Toutes les images de cette maison' : 'L\'image de cette maison' ?> </h1>
-
         @if ($images->count() > 1)
             <div class="flex flex-wrap px-4 mt-6 justify-between">
                 @foreach ($images as $image)
@@ -25,19 +24,25 @@
                 @endforeach
             </div>
         @else
-            <div class="flex justify-center">
-
+            <div class="flex justify-center mt-6">
+                <div class="overflow-hidden rounded-xl bg-white shadow-md duration-200 hover:scale-105 hover:shadow-xl">
+                    <img src={{ asset('storage/' . $images[0]->path) }} alt="houseImage" class="w-full h-52" />
+                </div>
             </div>
         @endif
 
     </div>
     <div class="mx-auto mt-6 p-6 rounded shadow bg-white" style="width: 96%">
-        <h1 class="text-start text-2xl text-red-600 "> Informations supplementaires</h1>
-        <div class="mt-4 px-6 flex justify-between">
-            <input type="text" disabled value="<?= "Prix :$house->prix FCFA" ?>" class='bg-gray-400'>
-            <input type="text" disabled value="<?= "Quotient :$house->nb_quotient mois" ?>" class='bg-gray-400'>
-            <input type="text" disabled value="<?= "Ville :$house->ville" ?>" class='bg-gray-400'>
-            <input type="text" disabled value="<?= "Quartier :$house->quartier" ?>" class='bg-gray-400'>
+        <h1 class="text-center md:text-start text-2xl text-red-600 "> Informations supplementaires</h1>
+        <div class="mt-4 px-6 flex gap-5 lg:justify-between flex-wrap">
+            <input type="text" class="text-white bg-indigo-600 rounded-lg" disabled value="<?= "Prix :$house->prix
+            FCFA" ?>" >
+            <input type="text" class="text-white bg-indigo-600 rounded-lg" disabled
+                value="<?= "Quotient:$house->nb_quotient mois" ?>">
+            <input type="text" class="text-white bg-indigo-600 rounded-lg" disabled
+                value="<?= "Ville:$house->ville" ?>" >
+            <input type="text" class="text-white bg-indigo-600 rounded-lg" disabled
+                value="<?= "Quartier:$house->quartier" ?>" >
         </div>
     </div>
 

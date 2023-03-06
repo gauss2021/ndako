@@ -36,7 +36,7 @@
         </div>
     @endif
     <div id="modal_overlay"
-        class="hidden absolute inset-0 bg-black bg-opacity-30 h-screen w-full flex justify-center items-start md:items-center pt-10 md:pt-0">
+        class="hidden absolute inset-0 bg-black bg-opacity-30 heightModal w-full flex justify-center items-start md:items-center pt-10 md:pt-0">
 
         <div id="modal"
             class="pacity-0 transform -translate-y-full scale-150  relative w-10/12 md:w-1/2 h-3/4 md:h-3/4 bg-white rounded shadow-lg transition-opacity transition-transform duration-300">
@@ -72,13 +72,13 @@
 
                     <div class="flex flex-col my-4">
                         <label for="prix" class="text-gray-700">Prix(<span class="text-red-700">*</span>)</label>
-                        <div class="flex">
-                            <input type="number" style="width: 95%" name="prix" id="prix"
-                                class="mt-2 p-2 border border-gray-300 focus:outline-none focus:ring-0 focus:border-gray-300 rounded text-sm text-gray-900"
+                        <div class="flex gap-3 items-center">
+                            <input type="number" name="prix" id="prix"
+                                class="mt-2 p-2 border widthOfPrice border-gray-300 focus:outline-none focus:ring-0 focus:border-gray-300 rounded text-sm text-gray-900"
                                 placeholder="Enter le prix de la maison par mois">
                             <input type="text"
-                                class="mt-2 ml-4 p-2 border bg-gray-600 border-gray-300 focus:outline-none focus:ring-0 focus:border-gray-300 rounded text-sm text-gray-900"
-                                disabled value="FCFA" required>
+                                class="mt-2 p-2 widthOfPriceDiseabled border text-white text-center border-gray-300 focus:outline-none focus:ring-0 focus:border-gray-300 rounded text-sm"
+                                style="background:#d9d9d9" disabled value="FCFA" required>
                         </div>
                     </div>
                     <div class="flex flex-col my-4">
@@ -90,7 +90,8 @@
                     </div>
                     <div class="flex flex-col my-4">
                         <label for="categorie" class="text-gray-700">Type(<span class="text-red-700">*</span>)</label>
-                        <select name="categorie" id="categorie" required>
+                        <select name="categorie" id="categorie" required
+                            class="mt-2 p-2 border border-gray-300 focus:outline-none focus:ring-0 focus:border-gray-300 rounded text-sm text-gray-900">
                             <option disabled selected>Choissisez le type de votre maison</option>
                             @if ($categories->count() > 0)
                                 @foreach ($categories as $categorie)
@@ -104,7 +105,8 @@
                         <label for="images" class="text-gray-700">Ajouter des images de votre maison(<span
                                 class="text-red-700">*Au moins une image et aux maximun 4 images</span>)</label>
                         <input type="file" name="images[]" id="images" accept=".jpg, .jpeg, .png"
-                            class="mt-2 p-2 border-gray-300 text-sm text-gray-900" multiple>
+                            class="mt-2 p-2 border border-gray-300 focus:outline-none focus:ring-0 focus:border-gray-300 rounded"
+                            multiple>
                     </div>
 
                 </form>
@@ -113,7 +115,7 @@
 
             <!-- footer -->
             <div
-                class="absolute bottom-0 left-0 px-4 py-3 border-t border-gray-200 w-full flex md:justify-end items-center gap-3">
+                class="absolute bottom-0 left-0 px-4 py-3 border-t border-gray-200 w-full flex justify-center md:justify-end items-center gap-3">
                 <button class="bg-green-500 hover:bg-green-600 px-4 py-2 rounded text-white focus:outline-none"
                     id="addHouseButton">Ajouter</button>
                 <button onclick="openModal(false)"
@@ -153,8 +155,8 @@
 
                             <!-- body -->
                             <div class="w-full px-3 pt-3 pb-10">
-                                <form action={{ route('house.update', $house) }} id="formUpdateHouse" method="POST"
-                                    enctype="multipart/form-data">
+                                <form action={{ route('house.update', $house) }} id={{ 'formUpdateHouse' . $house->id }}
+                                    method="POST" enctype="multipart/form-data">
                                     @csrf
                                     @method('Post')
                                     <div class="flex flex-col mb-4 mt-2">
@@ -246,7 +248,7 @@
                                 class="absolute bottom-0 left-0 px-4 pt-4 pb-4 border-t border-gray-200 w-full flex md:justify-end justify-center items-center gap-3 mt-6">
                                 <button
                                     class="bg-green-500 hover:bg-green-600 px-4 py-2 rounded text-white focus:outline-none"
-                                    id="updateHouseButton">Modifier</button>
+                                    id={{ 'updateHouseButton' . $house->id }}>Modifier</button>
                                 <button onclick="openModal1(false)"
                                     class="bg-red-500 hover:bg-red-600 px-4 py-2 rounded text-white focus:outline-none">Annuler</button>
                             </div>
@@ -265,6 +267,7 @@
                                 </p>
                                 <p class="text-medium mb-5 text-gray-700">Ville: {{ $house->ville }}</p>
                                 <p class="text-medium mb-5 text-gray-700">Quartier: {{ $house->quartier }}</p>
+                                <p class="text-medium mb-5 text-gray-700">Type: {{ $house->category->nom }}</p>
                                 <button
                                     class="w-full rounded-md bg-indigo-600  py-2 text-indigo-100 hover:bg-indigo-500 hover:shadow-md duration-75">Voir
                                     les offres pour cette maison
@@ -275,10 +278,10 @@
                                     ces informations
                                 </button>
                                 <form method="POST" action={{ route('house.retireHouseOfLocation', $house) }}
-                                    id='retireHouse'>
+                                    id={{ 'retireHouse' . $house->id }}>
                                     @csrf
                                 </form>
-                                <button id="retireHouseButton"
+                                <button id={{ 'retireHouseButton' . $house->id }}
                                     class="w-full rounded-md mt-4 bg-red-600  py-2 text-indigo-100 hover:bg-red-500 hover:shadow-md duration-75">Retirer
                                     cette maison en location
                                 </button>
@@ -308,6 +311,45 @@
 
 
 <script>
+    const houses = <?php echo $houses; ?>
+
+    houses.forEach(element => {
+
+        //Retire la maison
+        const retireHouseButton = document.getElementById('retireHouseButton' + element.id);
+
+        console.log(retireHouseButton);
+
+        if (retireHouseButton != null) {
+            retireHouseButton.addEventListener('click', function() {
+                const formRetireHouse = document.getElementById('retireHouse' + element.id);
+                if (formRetireHouse != null) {
+                    formRetireHouse.submit();
+                }
+            });
+        };
+
+        //Envoie du formulaire de modification
+
+        const updateHouseButton = document.getElementById('updateHouseButton' + element.id);
+
+        if (updateHouseButton != null) {
+
+            updateHouseButton.addEventListener(
+                'click',
+                function() {
+                    //console.log('envoie du formulaire');
+                    const formUpdateHouse = document.getElementById('formUpdateHouse' + element.id);
+
+                    if (formUpdateHouse != null) {
+                        formUpdateHouse.submit();
+                    }
+                });
+
+        }
+
+    });
+
     const modal_overlay = document.querySelector('#modal_overlay');
     const modal = document.querySelector('#modal');
 
@@ -360,33 +402,17 @@
     }
     openModal(false)
 
-    //Retire la maison
-    const retireHouseButton = document.getElementById('retireHouseButton');
-
-    if (retireHouseButton != null) {
-        retireHouseButton.addEventListener('click', function() {
-            const formRetireHouse = document.getElementById('retireHouse');
-            formRetireHouse.submit();
-        });
-    }
 
 
     const addHouseButton = document.getElementById('addHouseButton');
-    addHouseButton.addEventListener('click', function() {
-        console.log('envoie du formulaire');
-        const formAddHouse = document.getElementById('formAddHouse');
-        console.log(formAddHouse);
-        formAddHouse.submit();
-    });
+    addHouseButton.addEventListener('click',
+        function() {
+            console.log('envoie du formulaire');
+            const formAddHouse = document.getElementById('formAddHouse');
+            console.log(formAddHouse);
+            formAddHouse.submit();
+        });
 
-    //Envoie du formulaire de modification
-
-    const updateHouseButton = document.getElementById('updateHouseButton');
-    updateHouseButton.addEventListener('click', function() {
-        console.log('envoie du formulaire');
-        const formUpdateHouse = document.getElementById('formUpdateHouse');
-        formUpdateHouse.submit();
-    });
 
 
     //Fermer l'alarm manuellement
@@ -404,11 +430,35 @@
         .heightOfUpdateModal {
             height: 150vh;
         }
+
+        .heightModal {
+            height: 125vh;
+        }
+
+        .widthOfPrice {
+            width: 80%;
+        }
+
+        .widthOfPriceDiseabled {
+            width: 20%;
+        }
     }
 
     @media only screen and (min-width: 768px) {
         .heightOfUpdateModal {
             height: 105vh;
+        }
+
+        .heightModal {
+            height: 100vh;
+        }
+
+        .widthOfPrice {
+            width: 90%;
+        }
+
+        .widthOfPriceDiseabled {
+            width: 10%;
         }
     }
 </style>
